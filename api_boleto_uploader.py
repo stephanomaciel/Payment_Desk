@@ -24,17 +24,15 @@ if uploaded_file is not None:
     if missing_cols:
         st.error(f"Colunas obrigatórias ausentes no arquivo: {missing_cols}")
     else:
-        api_url = "https://<server>/<application_name>/api/Exchange/insertBoleto"  # Substitua pelo endpoint real
-        token = st.text_input("Insira seu token de autenticação", type="password")
+        api_url = "http://4.203.104.143/wsExchangeREST/api/exchange/insertBoleto"
 
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}"
+            "Accept": "*/*"
         }
 
         def send_boleto(row):
             payload = row[required_fields].to_dict()
-            payload['TOKEN'] = token
             try:
                 response = requests.post(api_url, headers=headers, json=payload)
                 return response.status_code, response.json()
